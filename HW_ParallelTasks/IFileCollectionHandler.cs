@@ -3,6 +3,6 @@
     public interface IFileCollectionHandler
     {
         string[]? GetFiles();
-        void Start();
+        Task<int> ReadAllFilesAndCountSpaces();
     }
 }

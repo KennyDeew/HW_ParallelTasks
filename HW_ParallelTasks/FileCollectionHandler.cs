@@ -4,19 +4,28 @@
     {
         public string FilesDirectory { get; set; }
 
-        public string[] FilePathArr { get; set; }
+        private IFileReader FileReader;
 
         public string[]? GetFiles()
         {
             return Directory.GetFiles(FilesDirectory);
         }
 
-        public void Start()
+        public FileCollectionHandler(string filesDirectory, IFileReader fileReader)
         {
-            foreach (var FilePath in FilePathArr)
-            {
+            FilesDirectory = filesDirectory;
+            FileReader = fileReader;
+        }
 
+        public async Task<int> ReadAllFilesAndCountSpaces()
+        {
+            List<Task<int>> paralleltasks = new List<Task<int>>();
+            foreach (var filePath in GetFiles())
+            {
+                paralleltasks.Add(FileReader.ReadFileAndCountSpaces(filePath));
             }
+            int[] SpacesCountArr = await Task.WhenAll(paralleltasks);
+            return SpacesCountArr.Sum();
         }
     }
 }

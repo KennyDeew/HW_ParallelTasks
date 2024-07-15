@@ -1,5 +1,4 @@
-﻿
-namespace HW_ParallelTasks
+﻿namespace HW_ParallelTasks
 {
     public class FileReader : IFileReader
     {
