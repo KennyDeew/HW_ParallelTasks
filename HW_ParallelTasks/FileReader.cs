@@ -1,34 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HW_ParallelTasks
 {
-    public class FileReader// : IFileReader
+    public class FileReader : IFileReader
     {
         private string[] RowsArr {  get; set; }
 
-        private string FilePath { get; set; }
-
-        public async Task<int> CountSpaces(string path)
+        public Task<int> ReadFileAndCountSpaces(string filePath)
         {
-            RowsArr = File.ReadAllLines(path);
+            RowsArr = File.ReadAllLines(filePath);
             int count = 0;
-            await Task.Run(() =>
+            foreach (var Row in RowsArr)
             {
-                foreach (var Row in RowsArr)
-                {
-                    count += Row.Count(s => s == ' ');
-                }
-            });
-            return count;
-        }
-
-        public void ReadFile()
-        {
-            RowsArr = File.ReadAllLines(FilePath);
+                count += Row.Count(s => s == ' ');
+            }
+            return Task.FromResult(count);
         }
     }
 }
