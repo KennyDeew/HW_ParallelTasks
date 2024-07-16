@@ -4,15 +4,15 @@
     {
         private string[] RowsArr {  get; set; }
 
-        public Task<int> ReadFileAndCountSpaces(string filePath)
+        public async Task<int> ReadFileAndCountSpaces(string filePath)
         {
-            RowsArr = File.ReadAllLines(filePath);
+            RowsArr = await File.ReadAllLinesAsync(filePath);
             int count = 0;
             foreach (var Row in RowsArr)
             {
                 count += Row.Count(s => s == ' ');
             }
-            return Task.FromResult(count);
+            return count;
         }
     }
 }
